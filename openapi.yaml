@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  title: api-ipfinder
+  version: 1.0.0
+  description: |
+    Returns the caller's public IP address, derived from the
+    `CF-Connecting-IP` header (set by Cloudflare) and falling back to
+    `X-Forwarded-For`, then to `0.0.0.0`.
+servers:
+  - url: https://api.ipfinder.de
+paths:
+  /:
+    get:
+      summary: Get the caller's IP address
+      description: |
+        Returns the IP address of the requesting client. By default the
+        response is plain text; pass `format=json` to receive JSON.
+      parameters:
+        - in: query
+          name: format
+          required: false
+          schema:
+            type: string
+            enum: [json]
+          description: If set to `json`, the response is returned as JSON.
+      responses:
+        "200":
+          description: The caller's IP address.
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+                example: "*"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 203.0.113.42
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IpResponse"
+              examples:
+                json:
+                  value:
+                    ip: 203.0.113.42
+components:
+  schemas:
+    IpResponse:
+      type: object
+      required: [ip]
+      properties:
+        ip:
+          type: string
+          description: The caller's IP address.
+          example: 203.0.113.42

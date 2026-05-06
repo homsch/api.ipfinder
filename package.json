@@ -1,0 +1,19 @@
+{
+	"name": "api-ipfinder",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"cloudflarelogin": "wrangler login",
+		"lint": "eslint ."
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.12.4",
+		"@eslint/js": "^10.0.1",
+		"eslint": "^10.3.0",
+		"globals": "^17.6.0",
+		"wrangler": "^4.88.0"
+	}
+}
