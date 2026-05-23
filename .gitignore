@@ -169,3 +169,7 @@ dist
 # JetBrains IDE files
 
 .idea/
+
+# Local design docs / specs
+
+docs/

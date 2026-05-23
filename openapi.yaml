@@ -43,13 +43,28 @@ paths:
                 json:
                   value:
                     ip: 203.0.113.42
+                    proxies:
+                      - 2001:db8:85a3:8d3:1319:8a2e:370:7348
 components:
   schemas:
     IpResponse:
       type: object
-      required: [ip]
+      required: [ip, proxies]
       properties:
         ip:
           type: string
           description: The caller's IP address.
           example: 203.0.113.42
+        proxies:
+          type: array
+          description: |
+            Chain of intermediate proxies the request traversed, parsed
+            from the `X-Forwarded-For` header with the caller's `ip`
+            removed. Element `0` is the first proxy traversed after the
+            client; subsequent elements follow in traversal order.
+            Empty if no `X-Forwarded-For` header was present or it only
+            contained the client IP.
+          items:
+            type: string
+          example:
+            - 2001:db8:85a3:8d3:1319:8a2e:370:7348
