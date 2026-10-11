@@ -1,6 +1,23 @@
+const ROBOTS_TXT = "User-agent: *\nAllow: /\n";
+
 export default {
   async fetch(request) {
     const url = new URL(request.url);
+
+    if (url.pathname === "/robots.txt") {
+      return new Response(ROBOTS_TXT, {
+        headers: { "content-type": "text/plain" },
+      });
+    }
+
+    // the IP is only served on the root path, everything else is unknown
+    if (url.pathname !== "/") {
+      return new Response("Not Found", {
+        status: 404,
+        headers: { "content-type": "text/plain", "Access-Control-Allow-Origin": "*"},
+      });
+    }
+
     const format = url.searchParams.get("format");
 
     const xff = request.headers.get("X-Forwarded-For");
